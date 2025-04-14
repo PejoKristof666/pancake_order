@@ -23,10 +23,16 @@ namespace pancake_order
         static int priceForOne = 50;
         static int priceForAll = 0;
         Label Price = new Label() { Content = $"Összesen: {priceForAll} Ft", FontSize = 20 };
+        file newfile;
+        List<file> all;
+        static string number;
+        static string doughtype;
+        static string fillingtype;
+
         public MainWindow()
         {
             InitializeComponent();
-            
+            newfile = new file("data.txt");
             Everything.Children.Add(Price);
             Start();
         }
@@ -68,6 +74,10 @@ namespace pancake_order
             }
             else
             {
+                number = numberInput.Text;
+                doughtype = doughTypeInput.Text;
+                fillingtype = fillingTypeInput.Text;
+
                 Everything.Children.Remove(Price);
                 priceForAll += 50 * Convert.ToInt32(numberInput.Text);
                 Price = new Label() { Content = $"Összesen: {priceForAll} Ft", FontSize = 20 };
@@ -89,7 +99,12 @@ namespace pancake_order
 
         void clickCart(object s, EventArgs e)
         {
+            
+
+            pancakes onePancakes = new pancakes(Convert.ToInt32(number), doughtype, fillingtype);
+            newfile.WriteOneLine(onePancakes);
             Everything.Children.Clear();
+            
         }
     }
 }
